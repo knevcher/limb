@@ -1,0 +1,2 @@
+This package allows you to store hierarchies in database using materialized path tree and
+nested sets algorithms.

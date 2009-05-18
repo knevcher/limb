@@ -1,0 +1,7 @@
+DROP TABLE "lmb_session";
+CREATE TABLE "lmb_session" (
+ "session_id" varchar(50) PRIMARY KEY,
+ "session_data" BLOB,
+ "last_activity_time" INTEGER
+);
+

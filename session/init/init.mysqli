@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS `lmb_session`;
+CREATE TABLE `lmb_session` (
+  `session_id` varchar(50) NOT NULL default '',
+  `session_data` blob NOT NULL,
+  `last_activity_time` bigint(11) unsigned default NULL,
+  PRIMARY KEY  (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
