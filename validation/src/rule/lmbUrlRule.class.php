@@ -16,14 +16,16 @@ lmb_require('limb/validation/src/rule/lmbDomainRule.class.php');
  */
 class lmbUrlRule extends lmbDomainRule
 {
-  /**
-  * @var pattern to match an url
-  */
-   protected $pattern = '#^((?<protocol>https?|ftp)://)?(?<domain>[-A-Z0-9.]+)(?<file>/[-A-Z0-9+&@\#/%=~_|!:,.;]*)?(?<parameters>\?[-A-Z0-9+&@\#/%=~_|!:,.;]*)?$#i';
-   
   function check($value)
   {
-    if(!preg_match($this->pattern, $value, $matches))
+    $pattern = '#^' . 
+               '((?<protocol>https?|ftp)://)' . 
+               '(?<domain>[-A-Z0-9.]+)' . 
+               '(?<file>/[-A-Z0-9+&@\#/%=~_|!:,.;]*)?' . 
+               '(?<parameters>\?[-A-Z0-9+&@\#/%=~_|!:,.;]*)?' . 
+               '$#i';
+
+    if(!preg_match($pattern, $value, $matches))
       return $this->error('{Field} is not an url.');
 
     parent::check($matches['domain']);
