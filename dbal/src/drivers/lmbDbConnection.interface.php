@@ -32,6 +32,7 @@ interface lmbDbConnection
   function getSequenceValue($table, $colname);
   function quoteIdentifier($id);
   function escape($string);
+  function getExtension();
 }
 
 
