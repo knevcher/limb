@@ -24,7 +24,10 @@ class lmbARManyToManyCollection extends lmbARRelationCollection
     $join_table = $this->conn->quoteIdentifier($this->relation_info['table']);
     $field = $this->conn->quoteIdentifier($this->relation_info['field']);
     $query->addCriteria("{$join_table}.{$field} = {$this->owner->getId()}");
-
+    if(isset($this->relation_info['criteria']))
+    {
+      $query->addCriteria($this->relation_info['criteria']);
+    }
     return $query; 
   }
   
