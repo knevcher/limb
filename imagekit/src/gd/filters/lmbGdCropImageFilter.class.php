@@ -19,7 +19,7 @@ class lmbGdCropImageFilter extends lmbAbstractImageFilter
   function apply(lmbAbstractImageContainer $container)
   {
     list($x, $y, $width, $height) = $this->calculateCropArea($container->getWidth(), $container->getHeight());
-    $im = $container->isPallete() ? imagecreate($width, $height) : imagecreatetruecolor($width, $height);
+    $im = $container->createBlankImage($width, $height);
     imagecopy($im, $container->getResource(), 0, 0, $x, $y, $width, $height);
     $container->replaceResource($im);
   }
