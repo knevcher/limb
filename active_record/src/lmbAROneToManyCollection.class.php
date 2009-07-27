@@ -20,6 +20,12 @@ class lmbAROneToManyCollection extends lmbARRelationCollection
   {
     $query = self :: createFullARQueryForRelation($this->relation_info, $this->conn, $params);
     $query->addCriteria(new lmbSQLFieldCriteria($this->relation_info['field'], $this->owner->getId()));
+
+    if(isset($this->relation_info['criteria']))
+    {
+      $query->addCriteria($this->relation_info['criteria']);
+    }
+    
     return $query;
   }
   
