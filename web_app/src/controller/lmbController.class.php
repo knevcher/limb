@@ -213,7 +213,7 @@ class lmbController
   {
     $this->form_id = $form_id;
     $this->view->setFormErrors($form_id, $this->error_list);
-    
+
     if ($datasource)
       $this->setFormDatasource($datasource);
   }
@@ -375,14 +375,11 @@ class lmbController
 
     $template_format = $this->getName() . '/' . $action;
 
-    if($template_path = $this->findTemplateByAlias($template_format));
-    {
-      $this->map_changed = true;
-      $this->action_template_map[$this->name][$action] = $template_path;
-      return $template_path;
-    }
+    $template_path = $this->findTemplateByAlias($template_format);
+    $this->action_template_map[$this->name][$action] = $template_path;
+    $this->map_changed = true;
 
-    $this->action_template_map[$this->name][$action] = false;
+    return $template_path;
   }
 
   function findTemplateByAlias($template_format)
@@ -394,6 +391,7 @@ class lmbController
         return $template_path;
       }
     }
+    return false;
   }
 }
 
