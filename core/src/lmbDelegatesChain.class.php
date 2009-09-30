@@ -45,32 +45,32 @@ class lmbDelegatesChain
   /**
    * Return true if delegate was added to the chain already 
    *
-   * @param mixed $delegete
+   * @param mixed $delegate
    * @return boolean
    */
-  function exists($delegete)
+  function exists($delegate)
   {
-    return $this->find($delegete) !== false;
+    return $this->find($delegate) !== false;
   }
 
   /**
    * Add a delegate to be invoked
    *
-   * @param mixed $delegete
+   * @param mixed $delegate
    */
-  function add($delegete)
+  function add($delegate)
   {
-    $this->delegates[] = lmbDelegate::objectify($delegete);
+    $this->delegates[] = lmbDelegate::objectify($delegate);
   }
   
   /**
    * Remove delegate from the chain
    *
-   * @param mixed $delegete
+   * @param mixed $delegate
    */
-  function remove($delegete)
+  function remove($delegate)
   {
-    if(($num = $this->find($delegete)) !== false)
+    if(($num = $this->find($delegate)) !== false)
       unset($this->delegates[$num]);
   }
   
