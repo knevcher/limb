@@ -32,9 +32,8 @@ abstract class lmbDbInfo
   function getTable($name)
   {
     if(!$this->hasTable($name))
-    {
       throw new lmbDbException("Table '$name' does not exist");
-    }
+
     return $this->tables[$name];
   }
 
