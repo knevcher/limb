@@ -166,10 +166,14 @@ function lmb_require($file_path, $class = '')
     $tried[$file_path . $class] = true;
 
   //do we really need this stuff here?
+
   if(strpos($file_path, '*') !== false)
   {
-    foreach(lmb_glob($file_path) as $path)
-      lmb_require($path);
+    $file_paths = lmb_glob($file_path);
+    if(is_array($file_paths))
+      foreach($file_paths as $path)
+        lmb_require($path);
+
     return;
   }
 
