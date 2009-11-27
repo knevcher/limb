@@ -19,12 +19,18 @@ class lmbAROneToManyCollection extends lmbARRelationCollection
   protected function _createARQuery($params = array())
   {
     $query = self :: createFullARQueryForRelation($this->relation_info, $this->conn, $params);
-    $query->addCriteria(new lmbSQLFieldCriteria($this->relation_info['field'], $this->owner->getId()));
+    
+    $relation_field = $this->relation_info['field'];
+    if(!strstr($relation_field, '.'))
+    {
+      $related_base_object = new $this->relation_info['class'];
+      $relation_field = $related_base_object->getTableName() . '.' . $relation_field;
+    }
+      
+    $query->addCriteria(new lmbSQLFieldCriteria($relation_field, $this->owner->getId()));
 
     if(isset($this->relation_info['criteria']))
-    {
       $query->addCriteria($this->relation_info['criteria']);
-    }
     
     return $query;
   }
