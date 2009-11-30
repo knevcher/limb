@@ -19,12 +19,13 @@ class lmbPgsqlInsertStatement extends lmbPgsqlManipulationStatement implements l
 {
   function insertId($field_name = 'id')
   {
-    $this->execute();
+    $this->sql .= " RETURNING {$field_name}";
+    $queryId = $this->execute();
 
     if(isset($this->parameters[$field_name]) && !empty($this->parameters[$field_name]))
       return $this->parameters[$field_name];
     else
-      return $this->connection->getSequenceValue($this->_retriveTableName($this->getSQL()), $field_name);
+      return $this->_getLastInsertId($queryId);
   }
 
   function _retriveTableName($sql)
@@ -33,6 +34,15 @@ class lmbPgsqlInsertStatement extends lmbPgsqlManipulationStatement implements l
     //removing possible quotes
     $m[1] = str_replace('"','',$m[1]);
     return $m[1];
+  }
+
+  protected function _getLastInsertId($queryId)
+  {
+    $row = pg_fetch_row($queryId);
+    pg_free_result($queryId);
+
+    if(is_array($row))
+      return $row[0];
   }
 }
 
