@@ -75,7 +75,7 @@ class lmbDbTools extends lmbAbstractTools
     if(is_object($dsn) && ($dsn instanceof lmbDbDSN))
       return $dsn;
     if(is_object($dsn) && ($dsn instanceof lmbSet))
-      new lmbDbDSN($dsn->export());
+      return new lmbDbDSN($dsn->export());
     return new lmbDbDSN($dsn);
   }
   
@@ -95,10 +95,11 @@ class lmbDbTools extends lmbAbstractTools
     $dsn = ($conf->has($name))
       ? $conf->get($name)
       : $this->_tryLoadDsnFromEnvironment($conf, $name);
+
+    $dsn = self :: castToDsnObject($dsn);
+    $this->setDbDSNByName($name, $dsn);
     
-    $this->setDbDSNByName($name, new lmbDbDSN($dsn));
-    
-    return $dsn;
+    return $dsn->toString();
   }
 
   function setDbDSNByName($name, $dsn)
@@ -111,17 +112,15 @@ class lmbDbTools extends lmbAbstractTools
 
   function getDbDSNByName($name)
   {  
-    if(isset($this->dsnes_names[$name]))
-      $dsn = $this->dsnes_names[$name];
-    else 
+    if(!isset($this->dsnes_names[$name]))
     {
-      $dsn = $this->_loadDbDsnFromConfig($name);
+      $this->_loadDbDsnFromConfig($name);
     }
-      
-    if(is_scalar($dsn) && isset($this->dsnes_available[$dsn]) && is_object($this->dsnes_available[$dsn]))
-      return $this->dsnes_available[$dsn];    
 
-    return $this->dsnes_available[$this->_getDbDsnHash($dsn)];
+    if(isset($this->dsnes_available[$this->dsnes_names[$name]]) && is_object($this->dsnes_available[$this->dsnes_names[$name]]))
+      return $this->dsnes_available[$this->dsnes_names[$name]];
+
+    return $this->dsnes_available[$this->dsnes_names[$name]];
   }
 
   function getDbDSN($env)
