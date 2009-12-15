@@ -118,7 +118,7 @@ class lmbDbTools extends lmbAbstractTools
       $dsn = $this->_loadDbDsnFromConfig($name);
     }
       
-    if(isset($this->dsnes_available[$dsn]) && is_object($this->dsnes_available[$dsn]))
+    if(is_scalar($dsn) && isset($this->dsnes_available[$dsn]) && is_object($this->dsnes_available[$dsn]))
       return $this->dsnes_available[$dsn];    
 
     return $this->dsnes_available[$this->_getDbDsnHash($dsn)];
