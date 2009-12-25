@@ -120,7 +120,7 @@ class lmbWebAppTools extends lmbAbstractTools
     $class_name = lmb_camel_case($controller_name) . 'Controller';
     if(!class_exists($class_name))
     {
-      $file = $this->toolkit->findFileByAlias("$class_name.class.php", 
+      $file = $this->toolkit->findFileByAlias("$class_name.class.php",
                                               lmb_env_get('LIMB_CONTROLLERS_INCLUDE_PATH'),
                                               'controller');
       lmb_require($file);
@@ -148,7 +148,7 @@ class lmbWebAppTools extends lmbAbstractTools
     {
       $conf = $this->toolkit->getConf('common');
 
-      if($conf['debug_enabled'])
+      if(isset($conf['debug_enabled']))
         $mode = $conf['debug_enabled'];
     }
     catch (lmbFileNotFoundException $e) {}
