@@ -1400,9 +1400,9 @@ class lmbActiveRecord extends lmbObject
 
   static protected function _getCallingClass()
   {
-    if (function_exists('get_called_class')) {
+    if(function_exists('get_called_class'))
       return get_called_class();
-    }
+
     //once PHP-5.3 LSB patch is available we'll use get_called_class
     //currently it's a quite a slow implementation and it doesn't
     //recognize multiline function calls
