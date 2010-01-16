@@ -384,21 +384,23 @@ function lmb_package_require($name, $packages_dir = '')
   catch(lmbException $e)
   {
     lmb_require('limb/core/src/exception/lmbNoSuchPackageException.class.php');
-    throw new lmbNoSuchPackageException("Package '{$name}' not found", array( 'name' => $name, 'dir' => $packages_dir));
+    throw new lmbNoSuchPackageException(
+        "Package '{$name}' not found", array( 'name' => $name, 'dir' => $packages_dir, 'main_file' => $main_file_path)
+    );
   }
 }
 
-function lmb_package_register($name, $packages_dir = '')
+function lmb_package_register($name)
 {
   if(!isset($_ENV['LIMB_PACKAGES_INITED']))
     $_ENV['LIMB_PACKAGES_INITED'] = array();
 
-  $_ENV['LIMB_PACKAGES_INITED'][$packages_dir . $name] = true;
+  $_ENV['LIMB_PACKAGES_INITED'][$name] = true;
 }
 
-function lmb_package_registered($name, $packages_dir = '')
+function lmb_package_registered($name)
 {
-  return isset($_ENV['LIMB_PACKAGES_INITED'][$packages_dir . $name]);
+  return isset($_ENV['LIMB_PACKAGES_INITED'][$name]);
 }
 
 function lmb_packages_list()
