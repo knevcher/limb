@@ -418,9 +418,9 @@ function lmb_packages_list()
     return $_ENV['LIMB_PACKAGES_INITED'];
 }
 
-function lmb_require_package_source($package, $path_in_package_src)
+function lmb_require_package_class($package, $path_in_package_src)
 {
-  $file_path = lmb_package_get_path($package).'/src/'.$path_in_package_src;
+  $file_path = lmb_package_get_path($package).'/src/'.$path_in_package_src.'.class.php';
   lmb_require($file_path);
 }
 
