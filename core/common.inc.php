@@ -372,7 +372,7 @@ function lmb_var_dir($value = null)
     return lmb_env_get('LIMB_VAR_DIR');
 }
 
-function lmb_package_include($name, $packages_dir = null)
+function lmb_package_require($name, $packages_dir = null)
 {
   if(is_null($packages_dir))
     $packages_dir = lmb_env_get('LIMB_PACKAGES_DIR');
