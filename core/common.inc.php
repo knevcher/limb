@@ -170,8 +170,6 @@ function lmb_require($file_path, $class = '')
   else
     $tried[$file_path . $class] = true;
 
-  //do we really need this stuff here?
-
   if(strpos($file_path, '*') !== false)
   {
     $file_paths = lmb_glob($file_path);
@@ -201,7 +199,7 @@ function lmb_require($file_path, $class = '')
     return;
   }
 
-  if(!@include_once($file_path))
+  if(!@include($file_path))
   {
     if(class_exists('lmbException'))
       $exception_class = 'lmbException';
