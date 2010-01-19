@@ -12,6 +12,8 @@
  * @version $Id$
  */
 require_once('limb/core/common.inc.php');
-require_once(dirname(__FILE__) . '/toolkit.inc.php');
+lmb_package_require('toolkit');
 
+lmb_require('limb/net/toolkit.inc.php');
 
+lmb_package_register('net', dirname(__FILE__));
