@@ -106,7 +106,7 @@ function lmb_require($file_path, $class = '')
     return;
   }
 
-  if(!@include($file_path))
+  if(!include_once($file_path))
   {
     if(class_exists('lmbException'))
       $exception_class = 'lmbException';
@@ -154,7 +154,7 @@ function lmb_autoload($name)
   {
     $file_path = $_ENV['LIMB_LAZY_CLASS_PATHS'][$name];
     //is it safe to use include here instead of include_once?
-    if(!@include($file_path))
+    if(!include_once($file_path))
     {
       $message = "Could not include source file '$file_path'";
       if(class_exists('lmbException') && class_exists('lmbBacktrace'))
