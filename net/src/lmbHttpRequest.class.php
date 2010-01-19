@@ -150,12 +150,20 @@ class lmbHttpRequest extends lmbSet
 
   function getGetFiltered($key, $filter, $default = LIMB_UNDEFINED)
   {
-    return filter_var($this->getGet($key, $default), $filter);
+    $value = $this->getGet($key, $default);
+    if (is_array($key))
+      return filter_var_array($value, $filter);
+    else
+      return filter_var($value, $filter);
   }
 
   function getPostFiltered($key, $filter, $default = LIMB_UNDEFINED)
   {
-    return filter_var($this->getPost($key, $default), $filter);
+    $value = $this->getPost($key, $default);
+    if (is_array($key))
+      return filter_var_array($value, $filter);
+    else
+      return filter_var($value, $filter);
   }
 
   protected function _get(&$arr, $key = null, $default = LIMB_UNDEFINED)
