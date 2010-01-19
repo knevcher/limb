@@ -11,6 +11,7 @@
  * @package tree
  * @version $Id$
  */
-require_once('limb/dbal/common.inc.php');
+require_once('limb/core/common.inc.php');
+lmb_package_require('dbal');
 
-
+lmb_package_register('tree', dirname(__FILE__));

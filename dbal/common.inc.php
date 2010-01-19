@@ -13,7 +13,9 @@
  */
 require_once('limb/core/common.inc.php');
 lmb_require('limb/dbal/toolkit.inc.php');
+lmb_package_require('toolkit');
+
 lmb_require('limb/dbal/src/exception/lmbDbException.class.php');
 lmb_require('limb/dbal/src/lmbDBAL.class.php');
 
-
+lmb_package_register('dbal', dirname(__FILE__));

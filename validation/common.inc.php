@@ -12,6 +12,6 @@
  * @version $Id$
  */
 require_once('limb/core/common.inc.php');
-require_once('limb/i18n/common.inc.php');
+lmb_package_require('i18n');
 
-
+lmb_package_register('validation', dirname(__FILE__));

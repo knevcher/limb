@@ -13,4 +13,4 @@
  */
 require_once('limb/core/common.inc.php');
 
-
+lmb_package_register('datetime', dirname(__FILE__));

@@ -12,7 +12,10 @@
  * @version $Id$
  */
 require_once('limb/core/common.inc.php');
-lmb_require('limb/dbal/common.inc.php');
+lmb_package_require('dbal');
+
 lmb_require('limb/session/src/lmbSession.class.php');
+
+lmb_package_register('session', dirname(__FILE__));
 
 

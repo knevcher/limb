@@ -12,11 +12,10 @@
  * @version $Id$
  */
 require_once('limb/core/common.inc.php');
-
-lmb_require_optional('limb/dbal/common.inc.php');
-lmb_require_optional('limb/active_record/common.inc.php');
+lmb_package_require('active_record');
+lmb_package_require('session');
 
 lmb_require('limb/web_app/toolkit.inc.php');
 lmb_require('limb/web_app/http.inc.php');
 
-
+lmb_package_register('web_app', dirname(__FILE__));
