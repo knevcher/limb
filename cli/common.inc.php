@@ -12,5 +12,4 @@
  * @version $Id$
  */
 require_once('limb/core/common.inc.php');
-
-
+lmb_package_register('cli', dirname(__FILE__));
