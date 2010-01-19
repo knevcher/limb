@@ -70,12 +70,17 @@ class lmbDbCachedInfo extends lmbProxy
 
   protected function _readFromFileCache()
   {
-    if(file_exists($this->cache_file))
+    if($this->_isFileCachingEnabled())
     {
       $container = unserialize(file_get_contents($this->cache_file));
       $db_info = $container->getSubject();
       return $db_info;
     }
+  }
+
+  protected function _isFileCachingEnabled()
+  {
+    return (lmb_env_get('LIMB_CACHE_DB_META_IN_FILE', false) && file_exists($this->cache_file));
   }
 
   protected function _writeToCache($db_info)
