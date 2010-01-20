@@ -18,9 +18,12 @@ class lmbDbDump
 {
   protected $file;
   protected $loader;
+  /**
+   * @var lmbDbConnection
+   */
   protected $connection;
 
-  function __construct($file, $connection = null)
+  function __construct($file = null, $connection = null)
   {
     $this->file = $file;
 
@@ -30,7 +33,7 @@ class lmbDbDump
       $this->connection = lmbToolkit :: instance()->getDefaultDbConnection();
   }
 
-  function load()
+  function load($file = null)
   {
     $type = $this->connection->getType();
 
@@ -42,8 +45,11 @@ class lmbDbDump
     else
       $loader = $default_loader;
 
-    $this->loader = new $loader($this->file);
+    $file = ($file) ? $file : $this->file;
+    $this->loader = new $loader($file);
     $this->loader->execute($this->connection);
+
+    $this->connection->getDatabaseInfo()->loadTables();
   }
 
   function clean()
