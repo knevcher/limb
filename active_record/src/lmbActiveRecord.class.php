@@ -1778,6 +1778,7 @@ class lmbActiveRecord extends lmbObject
     $query = lmbARQuery :: create(get_class($this), $params = array('criteria' => $criteria, 'sort' => $sort_params), $this->_db_conn);
     return $query->fetch($decorate = false);
   }
+
   /**
    *  Adds class name criterion to passed in criteria
    *  @param string|object criteria
@@ -1785,16 +1786,18 @@ class lmbActiveRecord extends lmbObject
    */
   function addClassCriteria($criteria)
   {
+    if(!is_object($criteria))
+      $criteria = lmbSQLCriteria::objectify($criteria);
+
     if($this->_isInheritable())
-      return lmbSQLCriteria :: objectify($criteria)->addAnd(array($this->_db_conn->quoteIdentifier(self :: $_inheritance_field) .
-                                                                  $this->getInheritanceCondition()));
+      $criteria = $criteria->addAnd($this->_getInheritanceCriteria());
 
     return $criteria;
   }
 
-  function getInheritanceCondition()
+  protected function _getInheritanceCriteria()
   {
-    return " LIKE '" . $this->_getInheritancePath() . "%'";
+    return lmbSQLCriteria::like($this->getInheritanceField(), $this->_getInheritancePath() . "%");
   }
 
   protected function _getInheritancePath()
