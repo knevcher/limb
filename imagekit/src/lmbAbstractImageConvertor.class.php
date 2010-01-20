@@ -7,8 +7,8 @@
  * @license    LGPL http://www.gnu.org/copyleft/lesser.html
  */
 
-lmb_require('limb/fs/src/lmbFileLocationsList.class.php');
-lmb_require('limb/fs/src/lmbFileLocator.class.php');
+lmb_require('fs/src/lmbFileLocationsList.class.php');
+lmb_require('fs/src/lmbFileLocator.class.php');
 
 /**
  * Abstract image convertor

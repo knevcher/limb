@@ -7,7 +7,7 @@
  * @license    LGPL http://www.gnu.org/copyleft/lesser.html
  */
 
-lmb_require('limb/imagekit/src/lmbAbstractImageFilter.class.php');
+lmb_require('imagekit/src/lmbAbstractImageFilter.class.php');
 
 /**
  * Resize image filter
@@ -21,8 +21,7 @@ class lmbGdResizeImageFilter extends lmbAbstractImageFilter
     $src_w = $container->getWidth();
     $src_h = $container->getHeight();
     list($dst_w, $dst_h) = $this->calcNewSize($src_w, $src_h);
-    $container->toTrueColor();
-    $im = $container->createBlankImage($dst_w, $dst_h, true);
+    $im = imagecreatetruecolor($dst_w, $dst_h);
     imagecopyresampled($im, $container->getResource(), 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
     $container->replaceResource($im);
   }

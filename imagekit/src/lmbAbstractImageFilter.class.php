@@ -62,8 +62,8 @@ abstract class lmbAbstractImageFilter
         $scale = $scale_w;
       else
         $scale = $scale_h;
-      $w = intval($src_w * $scale);
-      $h = intval($src_h * $scale);
+      $w = (int) round($src_w * $scale);
+      $h = (int) round($src_h * $scale);
     }
     elseif($save_min_size)
     {
@@ -77,7 +77,7 @@ abstract class lmbAbstractImageFilter
 
   function getParam($name, $default = null)
   {
-  	$param = $default;
+    $param = $default;
     if(isset($this->params[$name]))
       $param = $this->params[$name];
     return $param;
