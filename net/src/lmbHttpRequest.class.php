@@ -90,6 +90,11 @@ class lmbHttpRequest extends lmbSet
     return $this->has($name);
   }
 
+  function hasFiles($key = null)
+  {
+    return $this->_get($this->__files, $key);
+  }
+
   function getFiles($key = null)
   {
     $this->_ensureMultipartFormData();
