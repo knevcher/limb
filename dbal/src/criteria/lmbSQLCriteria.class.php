@@ -87,7 +87,27 @@ class lmbSQLCriteria extends lmbSQLBaseCriteria
   {
     return new lmbSQLFieldCriteria($column, $value, lmbSQLFieldCriteria :: EQUAL);
   }
-  
+
+  /**
+   * @param string $column
+   * @param string $value
+   * @return lmbSQLFieldCriteria
+   */
+  static function greater($column, $value)
+  {
+    return new lmbSQLFieldCriteria($column, $value, lmbSQLFieldCriteria :: GREATER);
+  }
+
+  /**
+   * @param string $column
+   * @param string $value
+   * @return lmbSQLFieldCriteria
+   */
+  static function less($column, $value)
+  {
+    return new lmbSQLFieldCriteria($column, $value, lmbSQLFieldCriteria :: LESS);
+  }
+
   /**
    * @param string $column
    * @param string $value
@@ -97,7 +117,7 @@ class lmbSQLCriteria extends lmbSQLBaseCriteria
   {
     return new lmbSQLFieldCriteria($column, $value, lmbSQLFieldCriteria :: LIKE);
   }
-  
+
   /**
    * @param string $column
    * @return lmbSQLFieldCriteria
