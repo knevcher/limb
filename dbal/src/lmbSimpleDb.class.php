@@ -151,6 +151,14 @@ class lmbSimpleDb
     return $this;
   }
 
+  function cleanup()
+  {
+    $info = $this->conn->getDatabaseInfo();
+    foreach($info->getTableList() as $table)
+      $this->conn->newStatement("DROP TABLE `$table`")->execute();
+    return $this;
+  }
+
   function disconnect()
   {
     $this->conn->disconnect();

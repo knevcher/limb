@@ -109,6 +109,16 @@ class lmbDBAL
   /**
    * @param string $table
    * @param [lmbDbConnection] $conn
+   * @return lmbInsertOnDuplicateUpdateQuery
+   */
+  static function insertOnDuplicateUpdateQuery($table, $conn = null)
+  {
+    return new lmbInsertOnDuplicateUpdateQuery($table, $conn);
+  }
+
+  /**
+   * @param string $table
+   * @param [lmbDbConnection] $conn
    * @return lmbBulkInsertQuery
    */
   static function bulkInsertQuery($table, $conn = null)
