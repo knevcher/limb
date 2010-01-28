@@ -1790,7 +1790,7 @@ class lmbActiveRecord extends lmbObject
       $criteria = lmbSQLCriteria::objectify($criteria);
 
     if($this->_isInheritable())
-      $criteria = $criteria->addAnd($this->_getInheritanceCriteria());
+      $criteria = $this->_getInheritanceCriteria()->add($criteria);
 
     return $criteria;
   }
