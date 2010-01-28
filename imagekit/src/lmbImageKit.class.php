@@ -17,7 +17,7 @@ class lmbImageKit
   {
     $image_class_name = 'lmb' . ucfirst($library) . 'ImageConvertor';
 
-    $class_path = 'imagekit/src/' .  $library . '/' . $image_class_name . '.class.php';
+    $class_path = 'limb/imagekit/src/' .  $library . '/' . $image_class_name . '.class.php';
 
     lmb_require($class_path);
 

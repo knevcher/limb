@@ -7,10 +7,10 @@
  * @license    LGPL http://www.gnu.org/copyleft/lesser.html
  */
 
-lmb_require('imagekit/src/lmbAbstractImageConvertor.class.php');
-lmb_require('imagekit/src/gd/lmbGdImageContainer.class.php');
-lmb_require('fs/src/exception/lmbFileNotFoundException.class.php');
-lmb_require('imagekit/src/exception/lmbImageLibraryNotInstalledException.class.php');
+lmb_require('limb/imagekit/src/lmbAbstractImageConvertor.class.php');
+lmb_require('limb/imagekit/src/gd/lmbGdImageContainer.class.php');
+lmb_require('limb/fs/src/exception/lmbFileNotFoundException.class.php');
+lmb_require('limb/imagekit/src/exception/lmbImageLibraryNotInstalledException.class.php');
 
 /**
  * GD image convertor
@@ -28,7 +28,7 @@ class lmbGdImageConvertor extends lmbAbstractImageConvertor
 
     if(!isset($params['filters_scan_dirs']))
       $params['filters_scan_dirs'] = dirname(__FILE__) . '/filters';
-    
+
     parent::__construct($params);
   }
 
