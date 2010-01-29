@@ -215,13 +215,13 @@ class lmbTableGateway
 
       $this->_stmt = $query->getStatement();
       $this->_bindValuesToStatement($this->_stmt, $set);
-      $this->_stmt->execute();
+      return $this->_stmt->execute();
     }
     else
     {
       $query->addRawField($set);
       $this->_stmt = $query->getStatement();
-      $this->_stmt->execute();
+      return $this->_stmt->execute();
     }
   }
 
