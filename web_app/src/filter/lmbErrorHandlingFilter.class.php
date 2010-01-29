@@ -44,7 +44,7 @@ class lmbErrorHandlingFilter implements lmbInterceptingFilter
 
   function handleFatalError($error)
   {
-    $message = $error['message'] . PHP_EOL . "Error in '" . $error['file'] . "' around line " . $error['line'] . PHP_EOL;
+    $message = $error['message'] . PHP_EOL . "Error in '" . $error['file'] . "' around line " . $error['line'];
     
     $this->toolkit->getLog()->log($message, LOG_ERR);
     $this->toolkit->getResponse()->reset();
