@@ -333,8 +333,11 @@ class lmbPgsqlStatement implements lmbDbStatement
     $this->statement = null;
     $this->statement_name = null;      
   }
-  
-  
+
+  function getParameters()
+  {
+    return $this->parameters;
+  }
 }
 
 
