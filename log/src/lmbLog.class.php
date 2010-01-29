@@ -65,9 +65,6 @@ class lmbLog
     if(!$this->isLogEnabled())
       return;
 
-    if(!$backtrace)
-      $backtrace = new lmbBacktrace($this->backtrace_depth[$level]);
-
     $this->_write($level, $message, $params, $backtrace);
   }
 
@@ -77,21 +74,11 @@ class lmbLog
       return;
 
     $backtrace_depth = $this->backtrace_depth[LOG_ERR];
-
-    if($exception instanceof lmbException)
-      $this->log(
-        $exception->getMessage(),
-        LOG_ERR,
-        $exception->getParams(),
-        new lmbBacktrace($exception->getTrace(), $backtrace_depth)
-      );
-    else
-      $this->log(
-        $exception->getMessage(),
-        LOG_ERR,
-        array(),
-        new lmbBacktrace($exception->getTrace(), $backtrace_depth)
-      );
+    
+    $params = ($exception instanceof lmbException) ? $exception->getParams() : array();
+    $message = $exception->getMessage() . PHP_EOL . "Exception in '" . $exception->getFile() . "' around line " . $exception->getLine();
+    
+    $this->log($message, LOG_ERR, $params, new lmbBacktrace($exception->getTrace(), $backtrace_depth));
   }
 
   protected function _write($level, $string, $params = array(), $backtrace = null)
