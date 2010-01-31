@@ -11,7 +11,7 @@
  * @package web_app
  * @version $Id$
  */
-@define('WACT_CACHE_DIR', LIMB_VAR_DIR . '/limb/wact/');
+@define('WACT_CACHE_DIR', lmb_env_get('LIMB_VAR_DIR') . '/limb/wact/');
 
 require_once('limb/wact/common.inc.php');
 
