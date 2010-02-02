@@ -61,10 +61,10 @@ class lmbI18NTools extends lmbAbstractTools
   function getLocaleObject($locale = null)
   {
     if(!$locale)
-      $locale = $this->toolkit->getLocale();
+      $locale = $this->getLocale();
 
     if(!isset($this->locale_objects[$locale]))
-      $this->locale_objects[$locale] = $this->toolkit->createLocaleObject($locale);
+      $this->locale_objects[$locale] = $this->createLocaleObject($locale);
 
     return $this->locale_objects[$locale];
   }
@@ -91,7 +91,7 @@ class lmbI18NTools extends lmbAbstractTools
   {
     if(!isset($this->dictionaries[$locale . '@' . $domain]))
     {
-      $backend = $this->toolkit->getDictionaryBackend();
+      $backend = $this->getDictionaryBackend();
       $this->dictionaries[$locale . '@' . $domain] = $backend->load($locale, $domain);
     }
 
@@ -105,7 +105,7 @@ class lmbI18NTools extends lmbAbstractTools
 
   function translate($text, $arg1 = null, $arg2 = null)
   {
-    $locale = $this->toolkit->getLocale();
+    $locale = $this->getLocale();
 
     $domain = 'default';
     $attributes = null;
@@ -119,7 +119,7 @@ class lmbI18NTools extends lmbAbstractTools
     elseif(is_string($arg1))
       $domain = $arg1;
 
-    if($dict = $this->toolkit->getDictionary($locale, $domain))
+    if($dict = $this->getDictionary($locale, $domain))
       return $dict->translate($text, $attributes);
     else
       return $text;
