@@ -59,7 +59,7 @@ class lmbHttpRequest extends lmbSet
     foreach($this->__request as $k => $v)
     {
       if(in_array($k, $this->__reserved_attrs))
-        throw new lmbException("Attribute with name '$k' is reserved for internal usage");
+        continue;
       $this->set($k, $v);
     }
   }
