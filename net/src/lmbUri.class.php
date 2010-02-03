@@ -435,11 +435,11 @@ class lmbUri extends lmbSet
   protected function _parseQueryString($query_string)
   {
     parse_str($query_string, $arr);
-    
+
     foreach($arr as $key => $item)
     {
       if(!is_array($item))
-        $arr[$key] = urldecode($item);
+        $arr[$key] = rawurldecode($item);
     }
 
     return $arr;
