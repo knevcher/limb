@@ -7,5 +7,5 @@ function lmb_tests_init_var_dir($value)
     lmbFs::rm($value);
   lmbFs :: mkdir($value);
   $real = realpath($value).'/';
-  lmb_var_dir($real);
+  lmb_var_dir($real)
 }
