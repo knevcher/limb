@@ -344,7 +344,7 @@ class lmbController
 
   function _loadCache()
   {
-    if($this->isCacheEnabled() && file_exists($cache = lmb_env_get('LIMB_VAR_DIR') . '/locators/controller_action2tpl.cache'))
+    if($this->isCacheEnabled() && file_exists($cache = lmb_var_dir() . '/locators/controller_action2tpl.cache'))
       $this->action_template_map = unserialize(file_get_contents($cache));
   }
 
@@ -352,7 +352,7 @@ class lmbController
   {
     if($this->map_changed && $this->isCacheEnabled())
     {
-      lmbFs :: safeWrite(lmb_env_get('LIMB_VAR_DIR') . '/locators/controller_action2tpl.cache',
+      lmbFs :: safeWrite(lmb_var_dir() . '/locators/controller_action2tpl.cache',
                          serialize($this->action_template_map));
     }
   }
