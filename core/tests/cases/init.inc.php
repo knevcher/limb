@@ -5,6 +5,7 @@ function lmb_tests_init_var_dir($value)
 {
   if(file_exists($value))
     lmbFs::rm($value);
+
   lmbFs :: mkdir($value);
   $real = realpath($value).'/';
   lmb_var_dir($real);
