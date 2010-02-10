@@ -50,7 +50,7 @@ class lmbLogTest extends UnitTestCase {
     $entry = current($this->log->getWriters())->getWritten();
 
     $this->assertTrue($entry->isLevel(LOG_ERR));
-    $this->assertEqual('exmessage', $entry->getMessage());
+    $this->assertTrue(strpos($entry->getMessage(), 'exmessage') !== false);
   }
 
   function testSetErrorLevel()
@@ -64,9 +64,9 @@ class lmbLogTest extends UnitTestCase {
   function testSetBacktraceDepth()
   {
     $this->log->setBacktraceDepth(LOG_NOTICE, $depth = 0);
-    $this->log->log('info', LOG_INFO);
+    $this->log->log('info', LOG_INFO, array(), new lmbBacktrace());
     $this->assertNotEqual($depth, count($this->_getLastLogEntry()->getBacktrace()->get()));
-    $this->log->log('notice', LOG_NOTICE);
+    $this->log->log('notice', LOG_NOTICE, array(), new lmbBacktrace());
     $this->assertEqual($depth, count($this->_getLastLogEntry()->getBacktrace()->get()));
   }
 
