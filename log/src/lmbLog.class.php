@@ -74,10 +74,10 @@ class lmbLog
       return;
 
     $backtrace_depth = $this->backtrace_depth[LOG_ERR];
-    
+
     $params = ($exception instanceof lmbException) ? $exception->getParams() : array();
     $message = $exception->getMessage() . PHP_EOL . "Exception in '" . $exception->getFile() . "' around line " . $exception->getLine();
-    
+
     $this->log($message, LOG_ERR, $params, new lmbBacktrace($exception->getTrace(), $backtrace_depth));
   }
 

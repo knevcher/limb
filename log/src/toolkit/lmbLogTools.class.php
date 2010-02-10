@@ -9,6 +9,7 @@
  */
 lmb_require('limb/toolkit/src/lmbAbstractTools.class.php');
 lmb_require('limb/log/src/lmbLog.class.php');
+lmb_require('limb/fs/src/lmbFs.class.php');
 
 /**
  * class lmbLogTools.
@@ -16,13 +17,14 @@ lmb_require('limb/log/src/lmbLog.class.php');
  * @package log
  * @version $Id: lmbWebAppTools.class.php 8011 2009-12-25 08:51:27Z korchasa $
  */
+
 class lmbLogTools extends lmbAbstractTools
 {
   protected $log;
 
   function getLogDSNes()
   {
-    $default_dsn = 'file://'.lmb_env_get('LIMB_VAR_DIR').'/log/error.log';
+    $default_dsn = 'file://'.lmbFs::normalizePath(lmb_env_get('LIMB_VAR_DIR').'/log/error.log');
 
     if(!$this->toolkit->hasConf('common'))
       return array($default_dsn);
