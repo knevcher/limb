@@ -30,18 +30,20 @@ class lmbMailer implements lmbBaseMailerInterface
   public $smtp_password;
 
   function __construct($config = array())
-  {            
-      $this->use_phpmail = lmb_env_get('LIMB_USE_PHPMAIL', false);
-      $this->smtp_host = lmb_env_get('LIMB_SMTP_HOST', 'localhost');
-      $this->smtp_port = lmb_env_get('LIMB_SMTP_PORT', '25');
-      $this->smtp_auth = lmb_env_get('LIMB_SMTP_AUTH', false);
-      $this->smtp_user = lmb_env_get('LIMB_SMTP_USER', '');
-      $this->smtp_password = lmb_env_get('LIMB_SMTP_PASSWORD', '');
+  {
+  	$conf = lmbToolkit::instance()->getConf('mail');
+  	            
+    $this->use_phpmail = $conf['use_phpmail'];
+    $this->smtp_host = $conf['smtp_host'];
+    $this->smtp_port = $conf['smtp_port'];
+    $this->smtp_auth = $conf['smtp_auth'];
+    $this->smtp_user = $conf['smtp_user'];
+    $this->smtp_password = $conf['smtp_password'];
       
-      $this->setConfig($config);
+    $this->setConfig($config);
       
-      $php_mailer_version = lmb_env_get('PHPMAILER_VERSION_NAME', 'phpmailer-2.2.1');
-      include_once('limb/mail/lib/' .  $php_mailer_version . '/class.phpmailer.php');
+    $php_mailer_version = lmb_env_get('PHPMAILER_VERSION_NAME', 'phpmailer-5.1');
+    include_once('limb/mail/lib/' .  $php_mailer_version . '/class.phpmailer.php');
   }
 
   public function setConfig($config)
