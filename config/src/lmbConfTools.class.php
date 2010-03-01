@@ -8,6 +8,9 @@
  */
 lmb_require('limb/toolkit/src/lmbAbstractTools.class.php');
 lmb_require('limb/config/src/lmbIni.class.php');
+lmb_require('limb/config/src/lmbYaml.class.php');
+lmb_require('limb/config/src/lmbYamlParser.class.php');
+lmb_require('limb/config/src/lmbYamlInline.class.php');
 lmb_require('limb/config/src/lmbCachedIni.class.php');
 lmb_require('limb/config/src/lmbConf.class.php');
 
@@ -75,6 +78,13 @@ class lmbConfTools extends lmbAbstractTools
       else
         $this->confs[$name] = new lmbIni($file);
     }
+    elseif($ext == '.yml')
+    {
+      $file = $this->_locateConfFiles($name);
+   
+      $this->confs[$name] =  $this->parseYamlFile(lmbFs::normalizePath($file)) ;
+
+    }
     elseif($ext == '.conf.php')
     {
       $file = $this->_locateConfFiles($name);
@@ -94,6 +104,12 @@ class lmbConfTools extends lmbAbstractTools
     if(strpos($name, '.') !== false)
       return $name;
     return "$name.conf.php";
+  }
+
+  protected function parseYamlFile($file)
+  {
+    $yml = lmbYaml::load($file);
+    return new lmbObject($yml);
   }
 }
 
