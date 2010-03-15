@@ -39,7 +39,7 @@ class lmbLogFileWriter implements lmbLogWriter
       @flock($fh, LOCK_EX);
       $time = strftime("%b %d %Y %H:%M:%S", $stamp);
 
-      $log_message = "=========================[{$time}]";
+      $log_message = PHP_EOL . "=========================[{$time}]";
 
       if(isset($_SERVER['REMOTE_ADDR']))
         $log_message .= '[' . $_SERVER['REMOTE_ADDR'] . ']';
@@ -47,7 +47,7 @@ class lmbLogFileWriter implements lmbLogWriter
       if(isset($_SERVER['REQUEST_URI']))
         $log_message .= '[' . $_SERVER['REQUEST_URI'] . ']';
 
-      $log_message .= "=========================\n" . $message;
+      $log_message .= "=========================" . PHP_EOL . $message;
 
       fwrite($fh, $log_message);
       @flock($fp, LOCK_UN);
