@@ -24,7 +24,7 @@ class lmbCurlRequest
 
   function __construct($url = '')
   {
-    if($url)
+    if('' != $url)
       $this->setUrl($url);
     
     $this->_initDefaultOptions();
@@ -41,10 +41,10 @@ class lmbCurlRequest
     $this->setOpt(CURLOPT_TIMEOUT_MS, $timeout); 
   }
   
-  function open($post_data = '')
+  function open($post_data = null)
   {
     $this->_ensureCurl();
-    if($post_data)
+    if(!is_null($post_data))
       $this->_setPostData($post_data);
 
     $this->_setupCurlOptions();
@@ -98,22 +98,8 @@ class lmbCurlRequest
 
   protected function _setPostData($post_data)
   {
-    if(!$post_data)
-      return;
-
     $this->setOpt(CURLOPT_POST, 1);
-
-    $var_string = '';
-    foreach ($post_data as $k => $v)
-      if(is_array($v))
-      {
-        foreach($v as $value)
-        $var_string .= "{$k}[]={$value}&";
-      }
-      else
-        $var_string .= "{$k}={$v}&";
-
-    $this->setOpt(CURLOPT_POSTFIELDS, $var_string);
+    $this->setOpt(CURLOPT_POSTFIELDS, $post_data);
   }
   
   function getError()
