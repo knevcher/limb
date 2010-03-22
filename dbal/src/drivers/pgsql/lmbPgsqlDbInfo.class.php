@@ -37,21 +37,26 @@ class lmbPgsqlDbInfo extends lmbDbInfo
   {
     if($this->isExisting)
     {
-      $result = $this->connection->execute("SELECT oid, relname FROM pg_class
-                                                WHERE relkind = 'r' AND relnamespace = (SELECT oid
+      $result = $this->connection->execute("SELECT oid, relname 
+                                              FROM pg_class
+                                              WHERE relkind = 'r' AND relnamespace = (
+                                                SELECT oid
                                                   FROM pg_namespace
                                                   WHERE
-                                                       nspname NOT IN ('information_schema','pg_catalog')
-                                                       AND nspname NOT LIKE 'pg_temp%'
-                                                       AND nspname NOT LIKE 'pg_toast%'
-                                                  LIMIT 1)
-                                                ORDER BY relname");
-
+                                                    nspname NOT IN ('information_schema','pg_catalog')
+                                                    AND nspname NOT LIKE 'pg_temp%'
+                                                    AND nspname NOT LIKE 'pg_toast%'
+                                                    AND nspname IN ('public', '{$this->connection->getConfig()->getUser()}')
+                                                  ORDER BY oid DESC
+                                                  LIMIT 1
+                                                )
+                                              ORDER BY relname");
+                                                
       while($row = pg_fetch_assoc($result))
       {
         $this->tables[$row['relname']] = $row['oid'];
       }
-
+      
       pg_free_result($result);
       $this->isTablesLoaded = true;
     }
