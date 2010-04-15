@@ -50,6 +50,7 @@ class lmbSqliteTypeInfo extends lmbDbTypeInfo
       'longtext' => self::TYPE_CLOB,
       'enum' => self::TYPE_CHAR,
       'set' => self::TYPE_CHAR,
+      'bool' => self::TYPE_BOOLEAN,
       );
   }
 }
