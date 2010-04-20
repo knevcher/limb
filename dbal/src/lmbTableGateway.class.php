@@ -88,6 +88,11 @@ class lmbTableGateway
     return $this->_conn;
   }
 
+  function setConnection($conn)
+  {
+    $this->_conn = $conn;
+  }
+
   function getColumnInfo($name)
   {
     if($this->hasColumn($name))
