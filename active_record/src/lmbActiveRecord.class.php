@@ -231,6 +231,7 @@ class lmbActiveRecord extends lmbObject
     $this->_db_table_fields = $this->_db_meta_info->getDbColumnsNames();
 
     $this->_db_table = $this->_db_meta_info->getDbTable();
+    $this->_db_table->setConnection($this->_db_conn);
     $this->_db_table->setPrimaryKeyName($this->_primary_key_name);
     $this->_error_list = new lmbErrorList();
 
