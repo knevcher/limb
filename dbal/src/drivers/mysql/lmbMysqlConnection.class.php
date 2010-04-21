@@ -41,18 +41,27 @@ class lmbMysqlConnection extends lmbDbBaseConnection
 
   function connect()
   {
+    $port = !empty($this->config['port']) ? (int) $this->config['port'] : null;
+    $socket = !empty($this->config['socket']) ? $this->config['socket'] : null;
+    $host = $this->config['host'];
+
+    if ($socket) {
+      $host .= ':' . $socket;
+    } elseif($port) {
+      $host .= ':' . $port;
+    }
+
     if(isset($this->config['pconnect']) && $this->config['pconnect'])
     {
-      $this->connectionId = mysql_pconnect($this->config['host'],
+      $this->connectionId = mysql_pconnect($host,
                                           $this->config['user'],
                                           $this->config['password']);
     }
     else
     {
-      $this->connectionId = mysql_connect($this->config['host'],
+      $this->connectionId = mysql_connect($host,
                                           $this->config['user'],
-                                          $this->config['password'],
-                                          true);
+                                          $this->config['password']);
     }
 
     if($this->connectionId === false)
