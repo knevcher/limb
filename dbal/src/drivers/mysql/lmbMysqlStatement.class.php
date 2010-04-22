@@ -174,7 +174,7 @@ class lmbMysqlStatement implements lmbDbStatement
 
   protected function _escape($value)
   {
-  	return mysql_escape_string($value);
+  	return $this->connection->escape($value);
   }
 }
 
