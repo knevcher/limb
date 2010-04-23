@@ -187,5 +187,11 @@ class lmbWebAppTools extends lmbAbstractTools
     $version = ($version > 0 ? '1' : '0') . base_convert(abs($version), 10, 36);
     return array($file, $version);
   }
+    
+  function selectDomainForFile($domains, $file_src, $safe = false)
+  { 
+    list($file_src, $version) = $this->toolkit->getNormalizeUrlAndVersion($file_src, $safe);
+    return '//' . $domains[floor(fmod(abs(crc32($file_src)), count($domains)))] . '/_/' . $version . '/' . ltrim($file_src, '/');
+  }
 }
 
