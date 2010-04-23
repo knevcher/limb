@@ -271,11 +271,7 @@ class lmbToolkit extends lmbObject
 
   protected function _hasGetMethodFor($property)
   {
-    $this->_ensureSignatures();
-
-    $capsed = lmb_camel_case($property);
-    $method = 'get' . $capsed;
-    return isset($this->_tools_signatures[$method]);
+    return (bool) $this->_mapPropertyToGetMethod($property);
   }
 
   protected function _mapPropertyToGetMethod($property)
