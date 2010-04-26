@@ -61,7 +61,8 @@ class lmbMysqlConnection extends lmbDbBaseConnection
     {
       $this->connectionId = mysql_connect($host,
                                           $this->config['user'],
-                                          $this->config['password']);
+                                          $this->config['password'],
+                                          $force_new_link = true);
     }
 
     if($this->connectionId === false)
