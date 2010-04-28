@@ -125,7 +125,7 @@ class lmbDBAL
   {
     return new lmbBulkInsertQuery($table, $conn);
   }
-  
+
   /**
    * @param string $table
    * @param [lmbDbConnection] $conn
@@ -156,9 +156,11 @@ class lmbDBAL
     if(!$conn)
       $conn = lmbToolkit :: instance()->getDefaultDbConnection();
     $stmt = $conn->newStatement($sql);
+    if(!$stmt instanceof lmbDbQueryStatement)
+      throw new lmbDbException("The result of this SQL query can not be fetched.", array('query' => $sql));
     return $stmt->getRecordSet();
-  }  
-  
+  }
+
   /**
    * @param string $sql
    * @param [lmbDbConnection] $conn
