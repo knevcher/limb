@@ -80,7 +80,7 @@ class lmbCurlRequest
         $data_str .= "$key=$value&";
     }
 
-    $fh = fopen('php://memory', 'rw');
+    $fh = fopen('php://temp', 'rw');
     fwrite($fh, $data_str);
     rewind($fh);
 
