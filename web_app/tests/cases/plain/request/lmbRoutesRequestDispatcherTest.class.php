@@ -2,9 +2,9 @@
 /*
  * Limb PHP Framework
  *
- * @link http://limb-project.com 
+ * @link http://limb-project.com
  * @copyright  Copyright &copy; 2004-2009 BIT(http://bit-creative.com)
- * @license    LGPL http://www.gnu.org/copyleft/lesser.html 
+ * @license    LGPL http://www.gnu.org/copyleft/lesser.html
  */
 lmb_require('limb/web_app/src/request/lmbRoutesRequestDispatcher.class.php');
 lmb_require('limb/web_app/src/request/lmbRoutes.class.php');
@@ -16,6 +16,8 @@ class lmbRoutesRequestDispatcherTest extends UnitTestCase
 
   function setUp()
   {
+    $_SERVER['REQUEST_METHOD'] = null;
+
     $this->toolkit = lmbToolkit :: save();
     $this->request = $this->toolkit->getRequest();
   }
@@ -112,6 +114,54 @@ class lmbRoutesRequestDispatcherTest extends UnitTestCase
     $this->assertEqual($result['controller'], 'news');
     $this->assertEqual($result['action'], 'admin_display');
   }
-}
 
+  function testDispatcherNotFoundRoute()
+  {
+    $this->request = new HttpRequest();
+    $this->toolkit->setRequest($this->request);
+
+    $config_array = array(array('path' => '/blog/:action',
+                                'defaults' => array('controller' => 'blog', 'action' => 'save'),
+                                'request_method' => 'POST',
+                          ));
+
+    $routes = new lmbRoutes($config_array);
+    $this->toolkit->setRoutes($routes);
+
+    $this->request->getUri()->reset('/blog');
+
+    $dispatcher = new lmbRoutesRequestDispatcher();
+    $result = $dispatcher->dispatch($this->request);
+
+    $this->assertTrue(empty($result));
+  }
+
+  function testDispatcherFoundRoute()
+  {
+    $_SERVER['REQUEST_METHOD'] = 'POST';
+
+    $this->request = new HttpRequest();
+    $this->toolkit->setRequest($this->request);
+
+    $config_array = array(
+      array('path' => '/blog/:action',
+            'defaults' => array('controller' => 'blog', 'action' => 'display'),
+            'request_method' => 'GET'),
+      array('path' => '/blog/:action',
+            'defaults' => array('controller' => 'blog', 'action' => 'save'),
+            'request_method' => 'POST',
+      ));
+
+    $routes = new lmbRoutes($config_array);
+    $this->toolkit->setRoutes($routes);
+
+    $this->request->getUri()->reset('/blog');
+
+    $dispatcher = new lmbRoutesRequestDispatcher();
+    $result = $dispatcher->dispatch($this->request);
+
+    $this->assertEqual($result['controller'], 'blog');
+    $this->assertEqual($result['action'], 'save');
+  }
+}
 
