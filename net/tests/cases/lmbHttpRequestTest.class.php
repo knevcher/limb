@@ -9,8 +9,28 @@
 lmb_require('limb/net/src/lmbHttpRequest.class.php');
 lmb_require('limb/net/src/lmbUri.class.php');
 
+Mock :: generate('lmbInputStreamParser', 'MockInputStreamParser');
+
 class lmbHttpRequestTest extends UnitTestCase
 {
+  function setUp()
+  {
+    parent :: setUp();
+
+    $this->_toolkit = lmbToolkit :: save();
+
+    $this->_input_stream_parser = new MockInputStreamParser();
+    $this->_toolkit->setInputStreamParser($this->_input_stream_parser);
+
+    $_SERVER['REQUEST_METHOD'] = null;
+    $_POST = array();
+  }
+
+  function tearDown()
+  {
+    lmbToolkit :: restore();
+  }
+
   function testGetUri()
   {
     $request = new lmbHttpRequest('http://test.com');
@@ -58,7 +78,7 @@ class lmbHttpRequestTest extends UnitTestCase
 
   function testGetGet()
   {
-  	$get = array('c' => 1, 'ju' => 'jitsu', 'kung' => 'fu');
+    $get = array('c' => 1, 'ju' => 'jitsu', 'kung' => 'fu');
     $request = new lmbHttpRequest('http://test.com', $get);
     $this->assertEqual($request->getGet(), $get);
     $this->assertEqual($request->getGet('c'), 1);
@@ -74,7 +94,7 @@ class lmbHttpRequestTest extends UnitTestCase
 
   function testGetPost()
   {
-  	$post = array('c' => 1, 'ju' => 'jitsu', 'kung' => 'fu');
+    $post = array('c' => 1, 'ju' => 'jitsu', 'kung' => 'fu');
     $request = new lmbHttpRequest('http://test.com', array(), $post);
     $this->assertEqual($request->getPost(), $post);
     $this->assertEqual($request->getPost('c'), 1);
@@ -132,7 +152,7 @@ class lmbHttpRequestTest extends UnitTestCase
 
   function testGetCookie()
   {
-  	$cookie = array('c' => 1, 'ju' => 'jitsu', 'kung' => 'fu');
+    $cookie = array('c' => 1, 'ju' => 'jitsu', 'kung' => 'fu');
     $request = new lmbHttpRequest('http://test.com', array(), array(), $cookie);
     $this->assertEqual($request->getCookie(), $cookie);
     $this->assertEqual($request->getCookie('c'), 1);
@@ -308,6 +328,92 @@ class lmbHttpRequestTest extends UnitTestCase
     $this->assertEqual($request['uri']['path'], '/wow');
     $this->assertEqual($request['get']['z'], '1');
   }
-}
 
+  function testGetPut()
+  {
+    $_SERVER['REQUEST_METHOD'] = 'PUT';
+    $put_array = array('foo1' => 'bar1', 'foo2' => 'bar2');
+    $this->_input_stream_parser->setReturnValue('parse', $put_array);
+
+    $request = new lmbHttpRequest('http://test.com?get_param=value');
+
+    $this->assertEqual($request->getPut(), $put_array);
+    $this->assertEqual($request->getPut('foo1'), 'bar1');
+    $this->assertEqual($request->getPut('foo2'), 'bar2');
+
+    $this->assertEqual($request->get('foo1'), 'bar1');
+    $this->assertEqual($request->get('foo2'), 'bar2');
+
+    $this->assertEqual($request->get('get_param'), 'value');
+  }
+
+  function testHasPut()
+  {
+    $_SERVER['REQUEST_METHOD'] = 'PUT';
+    $this->_input_stream_parser->setReturnValue('parse', array());
+
+    $request = new lmbHttpRequest('http://test.com?get_param=value');
+    $this->assertTrue($request->hasPut());
+  }
+
+  function testNoHasPut()
+  {
+    $_SERVER['REQUEST_METHOD'] = 'GET';
+    $this->_input_stream_parser->setReturnValue('parse', array('foo' => 'bar'));
+
+    $request = new lmbHttpRequest('http://test.com?get_param=value');
+    $this->assertFalse($request->hasPut());
+  }
+
+  function testHasDelete()
+  {
+    $_SERVER['REQUEST_METHOD'] = 'DELETE';
+    $this->_input_stream_parser->setReturnValue('parse', array());
+
+    $request = new lmbHttpRequest('http://test.com?get_param=value');
+    $this->assertTrue($request->hasDelete());
+  }
+
+  function testNoHasDelete()
+  {
+    $_SERVER['REQUEST_METHOD'] = 'GET';
+    $this->_input_stream_parser->setReturnValue('parse', array('foo' => 'bar'));
+
+    $request = new lmbHttpRequest('http://test.com?get_param=value');
+    $this->assertFalse($request->hasDelete());
+  }
+
+  function testSetRequestMethodDefaultAsGet()
+  {
+    $request = new lmbHttpRequest();
+
+    $this->assertTrue(!isset($_SERVER['REQUEST_METHOD']));
+    $this->assertEqual($request->getRequestMethod(), 'GET');
+  }
+
+  function testNotExplicitlySetRequestMethodAsPostByParams()
+  {
+    $_POST['foo'] = 'bar';
+
+    $request = new lmbHttpRequest();
+    $this->assertTrue(!isset($_SERVER['REQUEST_METHOD']));
+    $this->assertEqual($request->getRequestMethod(), 'POST');
+  }
+
+  function testExplicitlySetRequestMethodAsGet()
+  {
+    $_SERVER['REQUEST_METHOD'] = 'GET';
+
+    $request = new lmbHttpRequest();
+    $this->assertEqual($request->getRequestMethod(), 'GET');
+  }
+
+  function testExplicitlySetRequestMethodAsPost()
+  {
+    $_SERVER['REQUEST_METHOD'] = 'POST';
+
+    $request = new lmbHttpRequest();
+    $this->assertEqual($request->getRequestMethod(), 'POST');
+  }
+}
 

@@ -2,11 +2,12 @@
 /*
  * Limb PHP Framework
  *
- * @link http://limb-project.com 
+ * @link http://limb-project.com
  * @copyright  Copyright &copy; 2004-2009 BIT(http://bit-creative.com)
- * @license    LGPL http://www.gnu.org/copyleft/lesser.html 
+ * @license    LGPL http://www.gnu.org/copyleft/lesser.html
  */
 lmb_require('limb/toolkit/src/lmbAbstractTools.class.php');
+lmb_require('limb/net/src/lmbInputStreamParser.class.php');
 
 /**
  * class lmbNetTools.
@@ -18,6 +19,7 @@ class lmbNetTools extends lmbAbstractTools
 {
   protected $response;
   protected $request;
+  protected $input_stream_parser;
 
   function getRequest()
   {
@@ -49,6 +51,19 @@ class lmbNetTools extends lmbAbstractTools
   function setResponse($response)
   {
     $this->response = $response;
+  }
+
+  function getInputStreamParser()
+  {
+    if(!is_object($this->input_stream_parser))
+      $this->input_stream_parser = new lmbInputStreamParser();
+
+    return $this->input_stream_parser;
+  }
+
+  function setInputStreamParser($parser)
+  {
+    $this->input_stream_parser = $parser;
   }
 }
 
