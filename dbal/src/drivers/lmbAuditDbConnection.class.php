@@ -2,10 +2,11 @@
 /*
  * Limb PHP Framework
  *
- * @link http://limb-project.com 
+ * @link http://limb-project.com
  * @copyright  Copyright &copy; 2004-2009 BIT(http://bit-creative.com)
- * @license    LGPL http://www.gnu.org/copyleft/lesser.html 
+ * @license    LGPL http://www.gnu.org/copyleft/lesser.html
  */
+
 lmb_require('limb/dbal/src/drivers/lmbDbConnection.interface.php');
 lmb_require('limb/core/src/lmbBacktrace.class.php');
 lmb_require('limb/core/src/lmbDecorator.class.php');
@@ -21,7 +22,13 @@ lmbDecorator :: generate('lmbDbConnection', 'lmbDbConnectionDecorator');
 class lmbAuditDbConnection extends lmbDbConnectionDecorator
 {
   protected $stats = array();
-  
+  protected $statement_number = 0;
+
+  function getStatementNumber()
+  {
+    return ++$this->statement_number;
+  }
+
   function execute($sql)
   {
     $info = array('query' => $sql);
@@ -32,35 +39,39 @@ class lmbAuditDbConnection extends lmbDbConnectionDecorator
     $this->stats[] = $info;
     return $res;
   }
-  
+
   function executeStatement($stmt)
   {
-    $info = array('query' => $stmt->getSQL());
+    $info = array();
     $info['trace'] = $this->getTrace();
     $start_time = microtime(true);
+
     $res = parent :: executeStatement($stmt);
     $info['time'] = round(microtime(true) - $start_time, 6);
+
+    $info['query'] = $this->_replaceProperties($stmt->getSQL(), $stmt->getParameters());
+
     $this->stats[] = $info;
     return $res;
   }
-  
+
   function newStatement($sql)
   {
     $statement = parent :: newStatement($sql);
     $statement->setConnection($this);
     return $statement;
   }
-  
+
   function countQueries()
   {
     return sizeof($this->stats);
   }
-  
+
   function resetStats()
   {
     $this->stats = array();
   }
-  
+
   function getQueries($reg_exp = '')
   {
     $res = array();
@@ -73,22 +84,28 @@ class lmbAuditDbConnection extends lmbDbConnectionDecorator
 
     return $res;
   }
-  
-  function getTrace() 
+
+  function getTrace()
   {
-  	$trace_length = 8;
-  	$offset = 4; // getting rid of useless trace elements
-  	
-  	$trace = new lmbBacktrace($trace_length, $offset);
-  	return $trace->toString();
+    $trace_length = 8;
+    $offset = 4; // getting rid of useless trace elements
+
+    $trace = new lmbBacktrace($trace_length, $offset);
+    return $trace->toString();
   }
-  
+
   function getStats()
   {
-    return $this->stats; 
+    return $this->stats;
   }
-  
-  
-}
 
+  protected function _replaceProperties($sql, $parameters)
+  {
+    $keys = array();
+    foreach($parameters as $key => $value)
+      $keys[] = ":{$key}:";
+
+    return str_replace($keys, $parameters, $sql);
+  }
+}
 
