@@ -7,6 +7,7 @@
  * @license    LGPL http://www.gnu.org/copyleft/lesser.html
  */
 lmb_require('limb/toolkit/src/lmbAbstractTools.class.php');
+lmb_require('limb/net/src/lmbCurlRequest.class.php');
 lmb_require('limb/net/src/lmbInputStreamParser.class.php');
 
 /**
@@ -19,6 +20,7 @@ class lmbNetTools extends lmbAbstractTools
 {
   protected $response;
   protected $request;
+  protected $curl_request;
   protected $input_stream_parser;
 
   function getRequest()
@@ -51,6 +53,19 @@ class lmbNetTools extends lmbAbstractTools
   function setResponse($response)
   {
     $this->response = $response;
+  }
+
+  function getCurlRequest()
+  {
+    if(!is_object($this->curl_request))
+      $this->curl_request = new lmbCurlRequest();
+
+    return $this->curl_request;
+  }
+
+  function setCurlRequest($curl_request)
+  {
+    $this->curl_request = $curl_request;
   }
 
   function getInputStreamParser()
