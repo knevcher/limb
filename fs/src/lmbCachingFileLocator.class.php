@@ -70,7 +70,7 @@ class lmbCachingFileLocator extends lmbFileLocatorDecorator
     lmbFs :: safeWrite($this->getCacheFile(), $content);
   }
 
-  function locate($alias, $params = array())
+  function locate($alias, $params = array(), $find_all = false)
   {
     if($params)
       $hash = $alias . '_' . md5(serialize($params));
@@ -80,11 +80,19 @@ class lmbCachingFileLocator extends lmbFileLocatorDecorator
     if(isset($this->_cached_paths[$hash]))
       return $this->_cached_paths[$hash];
 
-    $this->_cached_paths[$hash] = $this->locator->locate($alias, $params);
+    if(!$find_all)
+      $this->_cached_paths[$hash] = $this->locator->locate($alias, $params);
+    else
+      $this->_cached_paths[$hash] = $this->locator->locateAll($alias, $params);
+
     $this->_changed = true;
 
     return $this->_cached_paths[$hash];
   }
-}
 
+  function locateAll($alias, $params = array())
+  {
+    return $this->locate($alias, $params, $find_all = true);
+  }
+}
 
