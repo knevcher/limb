@@ -434,15 +434,24 @@ class lmbUri extends lmbSet
   */
   protected function _parseQueryString($query_string)
   {
-    parse_str($query_string, $arr);
-
-    foreach($arr as $key => $item)
+    $items = array();
+    foreach(@explode('&', $query_string) as $item_str)
     {
-      if(!is_array($item))
-        $arr[$key] = rawurldecode($item);
+      list($key, $val) = explode('=', $item_str, 2);
+      if(isset($items[$key]))
+      {
+        if(!is_array($items[$key]))
+          $items[$key] = array($items[$key]);
+
+        $items[$key][] = $val;
+      }
+      else
+      {
+        $items[$key] = $val;
+      }
     }
 
-    return $arr;
+    return $items;
   }
 
   /**
